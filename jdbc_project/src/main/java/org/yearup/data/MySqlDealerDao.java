@@ -57,9 +57,8 @@ public class MySqlDealerDao implements DealerDao
     }
 
     @Override
-    public List<Vehicle> getByVin(String vin)
+    public Vehicle getByVin(String vin)
     {
-        List<Vehicle> vehicles = new ArrayList<>();
         String sql = """
                 SELECT V.vin
                         ,make
@@ -77,7 +76,7 @@ public class MySqlDealerDao implements DealerDao
 
             ResultSet row = statement.executeQuery();
 
-            while(row.next()) {
+            if(row.next()) {
                 //int vin = row.getInt("vin");
                 String make = row.getString("make");
                 String model = row.getString("model");
@@ -90,14 +89,15 @@ public class MySqlDealerDao implements DealerDao
                     setModel(model);
                     setDealershipId(dealershipId);
                 }};
-                vehicles.add(vehicle);
+                return vehicle;
             }
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            //throw new RuntimeException(e);
         }
 
-        return vehicles;
+        return null;
     }
 
     @Override
@@ -108,7 +108,8 @@ public class MySqlDealerDao implements DealerDao
                 SELECT make
                 	, model
                     , price
-                FROM vehicles;
+                FROM vehicles
+                WHERE price BETWEEN ? AND ?;
                  """;
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql))
@@ -132,7 +133,8 @@ public class MySqlDealerDao implements DealerDao
             }
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+//            throw new RuntimeException(e);
         }
 
         return vehicles;
@@ -310,7 +312,11 @@ public class MySqlDealerDao implements DealerDao
     {
         List<Vehicle> vehicles = new ArrayList<>();
         String sql = """
-                
+                SELECT make
+                	, model
+                    ,type
+                From vehicles
+                WHERE type =?;
                 """;
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql))

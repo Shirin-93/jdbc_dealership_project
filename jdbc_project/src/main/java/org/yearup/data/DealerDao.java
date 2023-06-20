@@ -7,7 +7,7 @@ import java.util.List;
 public interface DealerDao
 {
     List<Vehicle> getAllVehicle();
-    List<Vehicle> getByVin(String vin);
+    Vehicle getByVin(String vin);
     List<Vehicle> getByPrice(double minPrice,double maxPrice);
     List<Vehicle> getByMakeModel(String make, String model);
     List<Vehicle> getByColor(String color);

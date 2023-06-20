@@ -24,6 +24,7 @@ public class DataManager
             {
                 case "1":
                     displayAllVehicles();
+                    break;
                 case"2":
                     displayByPrice();
                 case"3":
@@ -87,11 +88,10 @@ public class DataManager
         String vin = userInput.next();
 
         var vehicle = dealerDao.getByVin(vin);
-        for (var vehicles: vehicle)
-        {
-            System.out.printf("%s %s %s\n",vehicles.getVin(),vehicles.getMake(),vehicles.getModel());
 
-        }
+            System.out.printf("%s %s %s\n",vehicle.getVin(),vehicle.getMake(),vehicle.getModel());
+
+
 
     }
     private void displayByPrice()
@@ -180,7 +180,7 @@ public class DataManager
             System.out.printf("%s %s %s",vehicles.getMake(),vehicles.getModel(),vehicles.getType());
         }
     }
-    private String additionalFeatures()
+    private void additionalFeatures()
     {
         System.out.println();
         System.out.println("You have these options to choose:\n\n");
@@ -188,10 +188,9 @@ public class DataManager
         System.out.println("b)Update a car in the list");
         System.out.println("c)Delete a car from the list");
         System.out.println("Make a selection:");
-        return userInput.nextLine().strip().toLowerCase();
 
-        String options = userInput.nextLine();
-        switch(options)
+        String choice= userInput.nextLine();
+        switch(choice)
         {
             case"a":
                 addVehicle();
@@ -207,6 +206,7 @@ public class DataManager
             default:
                 System.out.println("Invalid option please try again");
         }
+
     }
 
     private void deleteVehicle()
