@@ -16,9 +16,9 @@ public class Vehicle
     private int dealershipId;
     //getter and setter
 
-    public static String getVin() {
+    public String getVin() {
 
-        return null;
+        return vin;
     }
 
     public void setVin(String vin) {

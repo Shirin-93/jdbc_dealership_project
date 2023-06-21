@@ -138,14 +138,13 @@ public class Dealership
     }
 
     //method
-    public Vehicle findByVin(String vin)
+    public Vehicle getByVin(String vin)
     {
         for(Vehicle vehicle: inventory)
         {
-            if(Vehicle.getVin().equalsIgnoreCase(vin))
-            {
+//
                 return vehicle;
-            }
+
         }return null;
     }
     public ArrayList<Vehicle>getByMakeModel(String make, String model)

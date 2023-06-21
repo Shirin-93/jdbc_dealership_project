@@ -63,6 +63,7 @@ public class MySqlDealerDao implements DealerDao
                 SELECT V.vin
                         ,make
                         ,model
+                        ,color
                         ,i.dealership_Id
                         FROM vehicles as V
                         INNER JOIN inventory AS i
@@ -77,16 +78,18 @@ public class MySqlDealerDao implements DealerDao
             ResultSet row = statement.executeQuery();
 
             if(row.next()) {
-                //int vin = row.getInt("vin");
+                vin = row.getString("vin");
                 String make = row.getString("make");
                 String model = row.getString("model");
                 String color = row.getString("color");
                 int dealershipId = row.getInt("dealership_id");
 
+                String finalVin = vin;
                 Vehicle vehicle = new Vehicle() {{
-                    setVin(vin);
+                    setVin(finalVin);
                     setMake(make);
                     setModel(model);
+                    setColor(color);
                     setDealershipId(dealershipId);
                 }};
                 return vehicle;
@@ -148,7 +151,7 @@ public class MySqlDealerDao implements DealerDao
                  SELECT make
                  	,model
                  FROM vehicles
-                 WHERE make = ?;
+                 WHERE make = ? AND model =?;
                               
                 """;
         try (Connection connection = dataSource.getConnection();
@@ -187,7 +190,8 @@ public class MySqlDealerDao implements DealerDao
                     ,dealership_id
                 FROM vehicles as V
                 INNER JOIN inventory as i
-                	ON V.vin = i.vin;
+                	ON V.vin = i.vin
+                	WHERE color = ?;
                 """;
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql))
@@ -226,7 +230,8 @@ public class MySqlDealerDao implements DealerDao
                 SELECT make
                 	, model
                     ,year
-                FROM vehicles;
+                FROM vehicles
+                WHERE year = ?;
                 """;
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql))
@@ -266,7 +271,7 @@ public class MySqlDealerDao implements DealerDao
                 	,model
                     ,miles
                 FROM vehicles
-                WHERE miles <= ?;
+                WHERE miles BETWEEN ? AND ?;
                 """;
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql))

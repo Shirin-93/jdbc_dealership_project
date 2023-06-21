@@ -27,20 +27,28 @@ public class DataManager
                     break;
                 case"2":
                     displayByPrice();
+                    break;
                 case"3":
                     displayByMakeModel();
+                    break;
                 case"4":
                     displayByYearRange();
+                    break;
                 case"5":
                     displayByColor();
+                    break;
                 case"6":
                     displayByMilageRange();
+                    break;
                 case"7":
                     displayByVin();
+                    break;
                 case"8":
                     displayByType();
-                case"A":
+                    break;
+                case"111":
                     additionalFeatures();
+                    break;
                 case"0":
                     System.out.println("Thanks for Visiting...");
                     System.out.println("Exiting...");
@@ -64,9 +72,10 @@ public class DataManager
         System.out.println("5)Display vehicle by color");
         System.out.println("6)Display vehicle by Milage");
         System.out.println("7)Display vehicle by Vin");
-        System.out.println("8)Display vehicle by type\n\n");
-        System.out.println("Please make a selection: ");
-        return userInput.nextLine().strip().toLowerCase();
+        System.out.println("8)Display vehicle by type");
+        System.out.println("111)Choose additional features\n\n");
+        System.out.println("\t\tPlease make a selection: ");
+        return userInput.nextLine().strip();
 
     }
     private void displayAllVehicles()
@@ -89,7 +98,7 @@ public class DataManager
 
         var vehicle = dealerDao.getByVin(vin);
 
-            System.out.printf("%s %s %s\n",vehicle.getVin(),vehicle.getMake(),vehicle.getModel());
+            System.out.printf("%s %s %s %s %d\n",vehicle.getVin(),vehicle.getMake(),vehicle.getModel(),vehicle.getColor(),vehicle.getDealershipId());
 
 
 
@@ -105,7 +114,7 @@ public class DataManager
         var vehicle = dealerDao.getByPrice(minPrice,maxPrice);
         for (var vehicles : vehicle)
         {
-            System.out.printf("%s %s %s %d\n",vehicles.getVin(),vehicles.getMake(),vehicles.getModel(),vehicles.getPrice());
+            System.out.printf("%s %s %s\n",vehicles.getMake(),vehicles.getModel(),vehicles.getPrice());
 
         }
     }
@@ -177,7 +186,7 @@ public class DataManager
         var vehicle = dealerDao.getByType(type);
         for (var vehicles : vehicle)
         {
-            System.out.printf("%s %s %s",vehicles.getMake(),vehicles.getModel(),vehicles.getType());
+            System.out.printf("%s %s %s\n",vehicles.getMake(),vehicles.getModel(),vehicles.getType());
         }
     }
     private void additionalFeatures()
@@ -190,21 +199,12 @@ public class DataManager
         System.out.println("Make a selection:");
 
         String choice= userInput.nextLine();
-        switch(choice)
-        {
-            case"a":
-                addVehicle();
-                break;
-            case"b":
-                updateVehicle();
-                break;
-            case "c":
-                deleteVehicle();
-            case "x":
-                displayHomeScreen();
-                break;
-            default:
-                System.out.println("Invalid option please try again");
+        switch (choice) {
+            case "a" -> addVehicle();
+            case "b" -> updateVehicle();
+            case "c" -> deleteVehicle();
+            case "x" -> displayHomeScreen();
+            default -> System.out.println("Invalid option please try again");
         }
 
     }
